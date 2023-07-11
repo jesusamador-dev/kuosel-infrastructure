@@ -16,5 +16,7 @@ jobs:
 
     - name: Deploy to DigitalOcean
       run: |
-        scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }}:/home/${{ secrets.DROPLET_USER }}/docker
+        pwd
+        ls -l
+        scp -o StrictHostKeyChecking=no $GITHUB_WORKSPACE/docker-compose.yaml ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }}:/home/${{ secrets.DROPLET_USER }}/docker
         ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} "docker-compose -f /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml up -d"
