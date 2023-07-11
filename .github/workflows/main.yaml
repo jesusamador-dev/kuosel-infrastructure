@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
@@ -16,7 +19,5 @@ jobs:
 
     - name: Deploy to DigitalOcean
       run: |
-        pwd
-        ls -l
         scp -o StrictHostKeyChecking=no $GITHUB_WORKSPACE/docker-compose.yaml ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }}:/home/${{ secrets.DROPLET_USER }}/docker
         ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} "docker-compose -f /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml up -d"
