@@ -12,12 +12,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Copy docker-compose.yml to Droplet
+      uses: appleboy/scp-action@v2
+      with:
+        host: ${{ secrets.DROPLET_HOST }}
+        username: ${{ secrets.DROPLET_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: docker-compose.yaml
+        target: /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml
+
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Deploy to DigitalOcean
+      env:
+        IMAGE_BACK: ${{ secrets.IMAGE_BACK }}
       run: |
-        scp -o StrictHostKeyChecking=no $GITHUB_WORKSPACE/docker-compose.yaml ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }}:/home/${{ secrets.DROPLET_USER }}/docker
         ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} "docker-compose -f /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml up -d"
