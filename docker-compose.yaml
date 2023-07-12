@@ -1,7 +1,7 @@
 version: '3'
 services:
   kuosel-back:
-    image: ${GITHUB_IMAGE}
+    image: ${IMAGE_BACK}
     ports:
       - 8000:8000
     restart: always
