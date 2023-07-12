@@ -1,7 +1,7 @@
 version: '3'
 services:
   kuosel-back:
-    image: ${IMAGE_BACK}
+    image: ghcr.io/jesusamador-dev/kuosel-back:latest
     ports:
       - 8000:8000
     restart: always

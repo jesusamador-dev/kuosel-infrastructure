@@ -27,7 +27,5 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Deploy to DigitalOcean
-      env:
-        IMAGE_BACK: ${{ secrets.IMAGE_BACK }}
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} "docker-compose -f /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml up -d"
