@@ -19,7 +19,7 @@ jobs:
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: docker-compose.yaml
-        target: /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml
+        target: /home/${{ secrets.DROPLET_USER }}/docker/
 
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
