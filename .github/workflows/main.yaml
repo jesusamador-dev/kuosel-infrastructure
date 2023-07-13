@@ -28,4 +28,8 @@ jobs:
 
     - name: Deploy to DigitalOcean
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} "cd /home/${{ secrets.DROPLET_USER }}/docker/ && docker-compose pull && docker-compose -f /home/${{ secrets.DROPLET_USER }}/docker/docker-compose.yaml up -d --force-recreate --build --pull"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} \
+        "cd /home/${{ secrets.DROPLET_USER }}/docker/ && \
+        docker-compose -f down && \
+        docker-compose pull && \
+        docker-compose -f up -d --force-recreate --build --pull"
