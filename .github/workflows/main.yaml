@@ -30,6 +30,6 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} \
         "cd /home/${{ secrets.DROPLET_USER }}/docker/ && \
-        docker-compose -f down && \
+        docker-compose down && \
         docker-compose pull && \
-        docker-compose -f up -d --force-recreate --build --pull"
+        docker-compose up -d --force-recreate --build --pull"
