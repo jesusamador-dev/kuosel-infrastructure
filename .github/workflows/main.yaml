@@ -11,13 +11,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    
-    - name: Set up environment variables
-      run: |
-        echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
-        echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
-        echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
-        echo "HOST=${{ secrets.HOST }}" >> .env
 
     - name: Copy docker-compose.yml to Droplet
       uses: appleboy/scp-action@v0.1.4
@@ -37,6 +30,10 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }} \
         "cd /home/${{ secrets.DROPLET_USER }}/docker/ && \
+        echo 'DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}' > .env && \
+        echo 'DATABASE_USER=${{ secrets.DATABASE_USER }}' >> .env && \
+        echo 'DATABASE_NAME=${{ secrets.DATABASE_NAME }}' >> .env && \
+        echo 'HOST=${{ secrets.HOST }}' >> .env && \
         docker-compose down && \
         docker-compose pull && \
         docker-compose up -d --force-recreate --build"
